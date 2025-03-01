@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ментальная арифметика</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #number {
+            font-size: 48px;
+            margin: 20px;
+            opacity: 1;
+            transition: opacity 0.5s;
+        }
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 60px);
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .num-button {
+            font-size: 24px;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Тренировка ментальной арифметики</h1>
+    <p>Запомните числа и сложите их в уме!</p>
+    <label for="count">Количество чисел: </label>
+    <input type="number" id="count" value="5" min="1">
+    <br><br>
+    <label for="speed">Задержка (мс): </label>
+    <input type="number" id="speed" value="2000" min="100">
+    <br><br>
+    <label for="range">Рядность чисел: </label>
+    <select id="range">
+        <option value="10">1-10</option>
+        <option value="50">1-50</option>
+        <option value="100">1-100</option>
+    </select>
+    <br><br>
+    <label for="operation">Операции: </label>
+    <select id="operation">
+        <option value="mixed">Сложение и вычитание</option>
+        <option value="addition">Сложение</option>
+    </select>
+    <br><br>
+    <div id="number">---</div>
+    <button onclick="startGame()">Начать</button>
+    <br><br>
+    <input type="number" id="answer" placeholder="Ваш ответ" readonly />
+    <button onclick="checkAnswer()">Проверить</button>
+    <p id="result"></p>
+    
+    <div class="button-grid">
+        <button class="num-button" onclick="addDigit(1)">1</button>
+        <button class="num-button" onclick="addDigit(2)">2</button>
+        <button class="num-button" onclick="addDigit(3)">3</button>
+        <button class="num-button" onclick="addDigit(4)">4</button>
+        <button class="num-button" onclick="addDigit(5)">5</button>
+        <button class="num-button" onclick="addDigit(6)">6</button>
+        <button class="num-button" onclick="addDigit(7)">7</button>
+        <button class="num-button" onclick="addDigit(8)">8</button>
+        <button class="num-button" onclick="addDigit(9)">9</button>
+        <button class="num-button" onclick="addDigit(0)">0</button>
+        <button class="num-button" onclick="clearAnswer()">C</button>
+    </div>
+
+    <script>
+        let numbers = [];
+        let index = 0;
+        let sum = 0;
+
+        function startGame() {
+            numbers = [];
+            sum = 0;
+            index = 0;
+            document.getElementById("result").textContent = "";
+            document.getElementById("answer").value = "";
+            let count = parseInt(document.getElementById("count").value);
+            let delay = parseInt(document.getElementById("speed").value);
+            let range = parseInt(document.getElementById("range").value);
+            let operation = document.getElementById("operation").value;
+            showNumbers(count, delay, range, operation);
+        }
+
+        function showNumbers(count, delay, range, operation) {
+            if (count === 0) {
+                setTimeout(() => document.getElementById("number").textContent = "?", 10);
+                return;
+            }
+            let num = Math.floor(Math.random() * range) + 1;
+            if (operation === "mixed" && Math.random() < 0.5 && sum - num >= 0) {
+                num = -num;
+            }
+            numbers.push(num);
+            sum += num;
+            let numberElement = document.getElementById("number");
+            numberElement.style.opacity = 0;
+            setTimeout(() => {
+                numberElement.textContent = num;
+                numberElement.style.opacity = 1;
+                setTimeout(() => {
+                    numberElement.style.opacity = 0;
+                    setTimeout(() => showNumbers(count - 1, delay, range, operation), 10);
+                }, delay);
+            }, 500);
+        }
+
+        function checkAnswer() {
+            let userAnswer = parseInt(document.getElementById("answer").value);
+            if (userAnswer === sum) {
+                document.getElementById("result").textContent = "Правильно!";
+            } else {
+                document.getElementById("result").textContent = "Неправильно! Правильный ответ: " + sum;
+            }
+        }
+
+        function addDigit(digit) {
+            let answerField = document.getElementById("answer");
+            answerField.value += digit;
+        }
+
+        function clearAnswer() {
+            document.getElementById("answer").value = "";
+        }
+    </script>
+</body>
+</html>
