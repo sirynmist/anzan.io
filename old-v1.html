@@ -8,25 +8,13 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin: 30px;
+            margin: 50px;
         }
         #number {
             font-size: 48px;
             margin: 20px;
             opacity: 1;
             transition: opacity 0.5s;
-        }
-        .button-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 60px);
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .num-button {
-            font-size: 24px;
-            padding: 10px;
-            cursor: pointer;
         }
     </style>
 </head>
@@ -48,30 +36,16 @@
     <br><br>
     <label for="operation">Операции: </label>
     <select id="operation">
-        <option value="mixed">Сложение и вычитание</option>
+	    <option value="mixed">Сложение и вычитание</option>
         <option value="addition">Сложение</option>
     </select>
     <br><br>
     <div id="number">---</div>
     <button onclick="startGame()">Начать</button>
     <br><br>
-    <input type="number" id="answer" placeholder="Ваш ответ" readonly />
+    <input type="number" id="answer" placeholder="Ваш ответ" />
     <button onclick="checkAnswer()">Проверить</button>
     <p id="result"></p>
-    
-    <div class="button-grid">
-        <button class="num-button" onclick="addDigit(1)">1</button>
-        <button class="num-button" onclick="addDigit(2)">2</button>
-        <button class="num-button" onclick="addDigit(3)">3</button>
-        <button class="num-button" onclick="addDigit(4)">4</button>
-        <button class="num-button" onclick="addDigit(5)">5</button>
-        <button class="num-button" onclick="addDigit(6)">6</button>
-        <button class="num-button" onclick="addDigit(7)">7</button>
-        <button class="num-button" onclick="addDigit(8)">8</button>
-        <button class="num-button" onclick="addDigit(9)">9</button>
-        <button class="num-button" onclick="addDigit(0)">0</button>
-        <button class="num-button" onclick="clearAnswer()">C</button>
-    </div>
 
     <script>
         let numbers = [];
@@ -121,15 +95,6 @@
             } else {
                 document.getElementById("result").textContent = "Неправильно! Правильный ответ: " + sum;
             }
-        }
-
-        function addDigit(digit) {
-            let answerField = document.getElementById("answer");
-            answerField.value += digit;
-        }
-
-        function clearAnswer() {
-            document.getElementById("answer").value = "";
         }
     </script>
 </body>
